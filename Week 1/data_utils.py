@@ -2,6 +2,8 @@ import os
 import torch
 from torch.utils.data import Dataset
 from torchvision.io import read_image
+import torchvision.transforms as transforms
+from torchvision.transforms.functional import InterpolationMode
 
 class MIT_split_dataset(Dataset):
     def __init__(self, root_dir, transform=None):
@@ -31,3 +33,31 @@ class MIT_split_dataset(Dataset):
             img = self.transform(img)
 
         return img, label
+    
+# Define the custom transform function
+class CustomTransform:
+    def __init__(self, config, mode):
+
+        if mode == 'train':
+            self.transform = transforms.Compose([
+                transforms.RandomAffine(
+                    degrees=20,  # rotation_range
+                    translate=(0.2, 0.2),  # width_shift_range, height_shift_range
+                    scale=(0.8, 1.2),  # zoom_range, inverse because PyTorch scales with 1/value
+                    shear=20,  # shear_range
+                    interpolation=InterpolationMode.BILINEAR,
+                ),
+                transforms.RandomHorizontalFlip(p=0.5),  # horizontal_flip
+                transforms.RandomVerticalFlip(p=0),  # vertical_flip is False
+                transforms.RandomApply([transforms.ColorJitter(brightness=(0.8, 1.2))], p=1.0),  # brightness_range
+                transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
+                transforms.Lambda(lambda x: x/255.0),
+            ])
+        else:
+            self.transform = transforms.Compose([
+                transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
+                transforms.Lambda(lambda x: x/255.0),
+            ])
+
+    def __call__(self, img):
+        return self.transform(img)
