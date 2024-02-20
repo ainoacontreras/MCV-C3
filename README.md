@@ -9,7 +9,7 @@
 - Luis González (Luis.GonzalezGu@autonoma.cat)
 
 ## Overleaf Article
-[Link to Overleaf Article](#) (Non-editable link)
+[Link to Overleaf Article](https://www.overleaf.com/read/fvdtngjjxwmh#6327f0)
 
 ## Weekly Work Presentations
 - [Week 1 Presentation Summary](#)
