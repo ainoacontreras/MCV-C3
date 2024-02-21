@@ -28,7 +28,7 @@ criterion = torch.nn.CrossEntropyLoss()
 transform_cifar = transforms.Compose([
     transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])), # Resize images to match your model's expected input size
     transforms.ToTensor(), # Convert image to PyTorch tensor
-    transforms.Lambda(lambda x: x/255.0), # Normalize the image
+    transforms.Lambda(lambda x: x/255.0) # Normalize image
 ])
 
 # Load CIFAR-10 training and validation datasets
@@ -60,6 +60,7 @@ for epoch in range(config['n_epochs']//2):
         best_val_loss = val_loss
         torch.save(model.state_dict(), 'pretrained/best_model_cifar.pth')
 
+
 # ----------------- MIT_split_dataset -----------------
 
 transform_train = CustomTransform(config, mode='train')
@@ -70,7 +71,7 @@ dataset_validation = MIT_split_dataset(config['VALIDATION_DATASET_DIR'], transfo
 dataset_test = MIT_split_dataset(config['TEST_DATASET_DIR'], transform=transform_test)
 
 dataloader_train = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], shuffle=True)
-dataloader_validation = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], shuffle=True)
+dataloader_validation = torch.utils.data.DataLoader(dataset_validation, batch_size=config['batch_size'], shuffle=True)
 dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=config['batch_size'], shuffle=False)
 
 state_dict = torch.load('pretrained/best_model_cifar.pth')

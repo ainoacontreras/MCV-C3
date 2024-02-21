@@ -40,6 +40,8 @@ class CustomTransform:
 
         if mode == 'train':
             self.transform = transforms.Compose([
+                transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
+                transforms.Lambda(lambda x: x/255.0),
                 transforms.RandomAffine(
                     degrees=20,  # rotation_range
                     translate=(0.2, 0.2),  # width_shift_range, height_shift_range
@@ -48,15 +50,14 @@ class CustomTransform:
                     interpolation=InterpolationMode.BILINEAR,
                 ),
                 transforms.RandomHorizontalFlip(p=0.5),  # horizontal_flip
-                transforms.RandomVerticalFlip(p=0),  # vertical_flip is False
+                transforms.ToPILImage(),
                 transforms.RandomApply([transforms.ColorJitter(brightness=(0.8, 1.2))], p=1.0),  # brightness_range
-                transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
-                transforms.Lambda(lambda x: x/255.0),
+                transforms.ToTensor(),
             ])
         else:
             self.transform = transforms.Compose([
                 transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
-                transforms.Lambda(lambda x: x/255.0),
+                transforms.Lambda(lambda x: x/255.0)
             ])
 
     def __call__(self, img):
