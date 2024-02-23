@@ -49,18 +49,18 @@ print(f'Number of parameters: {num_params}')
 
 optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'], weight_decay=config['decay'])
 
-# best_val_loss = np.inf
-# for epoch in range(config['n_epochs']//2):
-#     train_loss, train_acc = train(model, dataloader_train_cifar, criterion, optimizer, device)
-#     val_loss, val_acc = validate(model, dataloader_val_cifar, criterion, device)
+best_val_loss = np.inf
+for epoch in range(config['n_epochs']//2):
+    train_loss, train_acc = train(model, dataloader_train_cifar, criterion, optimizer, device)
+    val_loss, val_acc = validate(model, dataloader_val_cifar, criterion, device)
 
-#     print(f'Epoch {epoch+1}/{config["n_epochs"]}')
-#     print(f'Training Loss: {train_loss:.4f}, Training Accuracy: {train_acc:.4f}')
-#     print(f'Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_acc:.4f}')
+    print(f'Epoch {epoch+1}/{config["n_epochs"]}')
+    print(f'Training Loss: {train_loss:.4f}, Training Accuracy: {train_acc:.4f}')
+    print(f'Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_acc:.4f}')
 
-#     if val_loss < best_val_loss:
-#         best_val_loss = val_loss
-#         torch.save(model.state_dict(), 'pretrained/best_model_cifar.pth')
+    if val_loss < best_val_loss:
+        best_val_loss = val_loss
+        torch.save(model.state_dict(), 'pretrained/best_model_cifar.pth')
 
 
 # ----------------- MIT_split_dataset -----------------

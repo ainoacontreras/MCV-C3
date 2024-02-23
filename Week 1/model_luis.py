@@ -34,7 +34,7 @@ class Model(nn.Module):
 
     def forward(self, x):
         x = F.gelu(self.conv1(x))
-        x = self.pool(x)
+        x = self.pool(x) 
         x = self.dropout(x)
         x = self.batch_norm1(x)
 
