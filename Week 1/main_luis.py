@@ -8,6 +8,8 @@ from data_utils import MIT_split_dataset, CustomTransform
 from train_utils import train, validate
 from model_luis import Model
 import numpy as np
+import wandb
+wandb.login(key='14a56ed86de5bf43e377d95d05458ca8f15f5017')
 
 config = {
     'IMG_WIDTH': 256,
@@ -47,21 +49,23 @@ print(f'Number of parameters: {num_params}')
 
 optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'], weight_decay=config['decay'])
 
-best_val_loss = np.inf
-for epoch in range(config['n_epochs']//2):
-    train_loss, train_acc = train(model, dataloader_train_cifar, criterion, optimizer, device)
-    val_loss, val_acc = validate(model, dataloader_val_cifar, criterion, device)
+# best_val_loss = np.inf
+# for epoch in range(config['n_epochs']//2):
+#     train_loss, train_acc = train(model, dataloader_train_cifar, criterion, optimizer, device)
+#     val_loss, val_acc = validate(model, dataloader_val_cifar, criterion, device)
 
-    print(f'Epoch {epoch+1}/{config["n_epochs"]}')
-    print(f'Training Loss: {train_loss:.4f}, Training Accuracy: {train_acc:.4f}')
-    print(f'Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_acc:.4f}')
+#     print(f'Epoch {epoch+1}/{config["n_epochs"]}')
+#     print(f'Training Loss: {train_loss:.4f}, Training Accuracy: {train_acc:.4f}')
+#     print(f'Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_acc:.4f}')
 
-    if val_loss < best_val_loss:
-        best_val_loss = val_loss
-        torch.save(model.state_dict(), 'pretrained/best_model_cifar.pth')
+#     if val_loss < best_val_loss:
+#         best_val_loss = val_loss
+#         torch.save(model.state_dict(), 'pretrained/best_model_cifar.pth')
 
 
 # ----------------- MIT_split_dataset -----------------
+
+wandb.init(project="week1", entity='c5-g8', config=config)
 
 transform_train = CustomTransform(config, mode='train')
 transform_test = CustomTransform(config, mode='test')
@@ -70,9 +74,9 @@ dataset_train = MIT_split_dataset(config['TRAINING_DATASET_DIR'], transform=tran
 dataset_validation = MIT_split_dataset(config['VALIDATION_DATASET_DIR'], transform=transform_test)
 dataset_test = MIT_split_dataset(config['TEST_DATASET_DIR'], transform=transform_test)
 
-dataloader_train = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], shuffle=True)
-dataloader_validation = torch.utils.data.DataLoader(dataset_validation, batch_size=config['batch_size'], shuffle=True)
-dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=config['batch_size'], shuffle=False)
+dataloader_train = DataLoader(dataset_train, batch_size=config['batch_size'], shuffle=True)
+dataloader_validation = DataLoader(dataset_validation, batch_size=config['batch_size'], shuffle=True)
+dataloader_test = DataLoader(dataset_test, batch_size=config['batch_size'], shuffle=False)
 
 state_dict = torch.load('pretrained/best_model_cifar.pth')
 
@@ -98,10 +102,13 @@ for epoch in range(config['n_epochs']):
     print(f'Training Loss: {train_loss:.4f}, Training Accuracy: {train_acc:.4f}')
     print(f'Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_acc:.4f}')
 
+    wandb.log({'train_loss': train_loss, 'train_acc': train_acc, 'val_loss': val_loss, 'val_acc': val_acc})
+
     if val_loss < best_val_loss:
         best_val_loss = val_loss
         torch.save(model.state_dict(), 'pretrained/best_model.pth')
 
+wandb.finish()
 # Evaluate the model on the test data
 test_loss, test_acc = validate(model, dataloader_test, criterion, device)
 print(f"Test Loss: {test_loss:.4f}")
