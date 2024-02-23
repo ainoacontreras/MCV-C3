@@ -12,7 +12,7 @@
 [Link to Overleaf Article](https://www.overleaf.com/read/fvdtngjjxwmh#6327f0)
 
 ## Weekly Work Presentations
-- [Week 1 Presentation Summary](#)
+- [Week 1 Presentation Summary](https://docs.google.com/presentation/d/1RmwTdTR9S9iiPmd5WSYK3AvGLF8sHF9khjBmIsuc1fg/edit?usp=sharing)
 - [Week 2 Presentation Summary](#)
 - [Week 3 Presentation Summary](#)
 
