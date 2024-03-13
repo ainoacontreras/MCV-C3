@@ -13,7 +13,6 @@
 
 ## Weekly Work Presentations
 - [Week 1 Presentation Summary](https://docs.google.com/presentation/d/1RmwTdTR9S9iiPmd5WSYK3AvGLF8sHF9khjBmIsuc1fg/edit?usp=sharing)
-- [Week 2 Presentation Summary](#)
+- [Week 2 Presentation Summary](https://docs.google.com/presentation/d/1DoA-g94lC9giuTePWLVPW6IXz87cfSrAyGgV1GcoCqU/edit?usp=sharing)
 - [Week 3 Presentation Summary](#)
 
-Please note: At the moment, there is no content available for the Overleaf article. Links to weekly work presentations provide summaries of our progress throughout the project.
