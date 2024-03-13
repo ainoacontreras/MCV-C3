@@ -11,6 +11,7 @@ def train(model, dataloader, optimizer, loss_func, miner, device):
         optimizer.zero_grad()
         outputs1, outputs2 = model(images1, images2)
         targets = targets.float()  # Ensure targets are float for contrastive loss
+        print(outputs1.shape, outputs2.shape, targets.shape)
         
         # Miner step to select informative pairs
         hard_pairs = miner(outputs1, outputs2, targets)
