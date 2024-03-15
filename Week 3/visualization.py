@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 import umap
 from sklearn.decomposition import PCA
 
-
-
 def reduce(data, mode):
     if mode == 'TSNE':
         reduced_data = TSNE(n_components=2, learning_rate='auto',

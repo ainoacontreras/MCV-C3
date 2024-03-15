@@ -47,7 +47,7 @@ class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
 
-        self.model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', weights='ResNet50_Weights.DEFAULT').eval()
+        self.model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', weights='ResNet50_Weights.DEFAULT')
         self.model.fc = nn.Identity()
         
     def forward(self, x):
