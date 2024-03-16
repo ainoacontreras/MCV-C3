@@ -65,16 +65,13 @@ class CustomTransform:
         if mode == 'train':
             self.transform = transforms.Compose([
                 transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
-                # transform to tensor
                 transforms.ToTensor(),
-                transforms.Lambda(lambda x: x/255.0),
                 transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
             ])
         else:
             self.transform = transforms.Compose([
                 transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
                 transforms.ToTensor(),
-                transforms.Lambda(lambda x: x/255.0),
                 transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
             ])
 
