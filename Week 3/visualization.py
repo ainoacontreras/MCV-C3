@@ -6,7 +6,6 @@ from sklearn.decomposition import PCA
 import pickle
 import matplotlib.cm as cm
 
-<<<<<<< HEAD
 
 def open_file(file_path):
     file = open(file_path, "rb")
@@ -15,8 +14,6 @@ def open_file(file_path):
     return embeddings, labels
 
 
-=======
->>>>>>> b19d7d4daeba59014ca22de55fd6a3723b376314
 def reduce(data, mode):
     if mode == 'TSNE':
         reduced_data = TSNE(n_components=2, learning_rate='auto',
