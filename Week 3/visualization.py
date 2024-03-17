@@ -17,7 +17,7 @@ def open_file(file_path):
 def reduce(data, mode):
     if mode == 'TSNE':
         reduced_data = TSNE(n_components=2, learning_rate='auto',
-                    init='random', perplexity=3).fit_transform(data)
+                    init='pca', perplexity=3).fit_transform(data)
     
     elif mode=='UMAP':
         reduced_data = umap.UMAP(n_components=2, n_neighbors=5).fit_transform(data)
@@ -30,13 +30,11 @@ def reduce(data, mode):
 
     return reduced_data
 
-file = 'embeddings_resnet.pkl'
+file = './embeddings/resnet_validation_features.pkl'
 embeddings, labels = open_file(file)
-print(embeddings.shape, labels.shape)
 
 mode = 'UMAP'
 reduced_embedding = reduce(embeddings, mode)
-print(reduced_embedding.shape)
 
 classes = ['Opencountry', 'coast', 'forest', 'highway', 'inside_city', 'mountain', 'street', 'tallbuilding']
 colormap = cm.get_cmap('tab10')
