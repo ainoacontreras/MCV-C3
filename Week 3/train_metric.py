@@ -13,13 +13,13 @@ wandb.login(key='14a56ed86de5bf43e377d95d05458ca8f15f5017')
 config = {
     'IMG_WIDTH': 256,
     'IMG_HEIGHT': 256,
-    'TRAINING_DATASET_DIR': '../Week 1/data/MIT_split/train',
-    'TEST_DATASET_DIR': '../Week 1/data/MIT_split/test',
-    'batch_size': 32,
-    'epochs': 30,
-    'learning_rate': 0.001,
+    'TRAINING_DATASET_DIR': '/export/home/mcv/datasets/C3/MIT_split/train',
+    'TEST_DATASET_DIR': '/export/home/mcv/datasets/C3/MIT_split/test',
+    'batch_size': 64,
+    'epochs': 80,
+    'learning_rate': 0.0001,
     'n_neighbors': 5,
-    'type_model': 'siamese',
+    'type_model': 'triplet',
     'device': torch.device("cuda" if torch.cuda.is_available() else "cpu")
 }
 
@@ -64,7 +64,7 @@ if config['type_model'] == 'siamese':
 
 else:
     loss_func = losses.TripletMarginLoss(margin=0.2, distance=distance)
-    miner = miners.TripletMarginMiner(margin=0.2, distance=distance, type_of_triplets="semihard")
+    miner = miners.TripletMarginMiner(margin=0.2, distance=distance, type_of_triplets="all")
 
 optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'])
 
@@ -83,7 +83,7 @@ for epoch in range(config['epochs']):
 
     if accuracies['precision_at_1'] > best_acc:
         best_acc = accuracies['precision_at_1']
-        torch.save(model.state_dict(), 'pretrained/best_model_siamese.pth')
+        torch.save(model.state_dict(), './pretrained/best_model_siamese.pth')
 
 print(f"Best Validation Accuracy: {best_acc}")
 print("Testing the model...")
