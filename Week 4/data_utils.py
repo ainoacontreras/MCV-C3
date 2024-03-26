@@ -1,3 +1,10 @@
+from torch.utils.data import Dataset
+from torchvision import transforms
+from PIL import Image
+import torch
+import os
+from tqdm import tqdm
+
 class CustomTransform:
     def __init__(self, config, mode):
         if mode == 'train':
@@ -59,4 +66,4 @@ def coco_collator(batch):
         images.append(img)
         captions.append(caption)
         labels.append(label)
-    return torch.stack(images), captions, torch.stack(labels)
+    return torch.stack(images), captions, torch.Tensor(labels).int()
