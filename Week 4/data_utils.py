@@ -31,7 +31,7 @@ class CocoMetricDataset(Dataset):
         self.filenames = []
         self.captions = []
         
-        for caption_info in tqdm(captions_file["annotations"], desc="Creating image-answer pairs..."):
+        for caption_info in tqdm(captions_file["annotations"][:len(captions_file["annotations"])//8], desc="Creating image-answer pairs..."):
             caption = caption_info["caption"]
             image_id = caption_info["image_id"]
 
