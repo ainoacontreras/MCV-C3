@@ -13,11 +13,17 @@ class CustomTransform:
                 transforms.ToTensor(),
                 transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
             ])
+        elif mode == 'clip':
+            self.transform = transforms.Compose([
+                transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
+                transforms.CenterCrop((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
+                transforms.ToTensor(),
+                transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
+            ])
         else:
             self.transform = transforms.Compose([
                 transforms.Resize((config['IMG_WIDTH'], config['IMG_HEIGHT'])),
                 transforms.ToTensor(),
-                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
             ])
 
     def __call__(self, img):
@@ -31,7 +37,7 @@ class CocoMetricDataset(Dataset):
         self.filenames = []
         self.captions = []
         
-        for caption_info in tqdm(captions_file["annotations"], desc="Creating image-answer pairs..."):
+        for caption_info in tqdm(captions_file["annotations"][:len(captions_file["annotations"])//32], desc="Creating image-answer pairs..."):
             caption = caption_info["caption"]
             image_id = caption_info["image_id"]
 
