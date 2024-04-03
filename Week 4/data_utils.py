@@ -4,6 +4,8 @@ from PIL import Image
 import torch
 import os
 from tqdm import tqdm
+from collections import defaultdict
+import random
 
 class CustomTransform:
     def __init__(self, config, mode):
@@ -37,7 +39,7 @@ class CocoMetricDataset(Dataset):
         self.filenames = []
         self.captions = []
         
-        for caption_info in tqdm(captions_file["annotations"][:len(captions_file["annotations"])//32], desc="Creating image-answer pairs..."):
+        for caption_info in tqdm(captions_file["annotations"][:5000], desc="Creating image-answer pairs..."):
             caption = caption_info["caption"]
             image_id = caption_info["image_id"]
 
@@ -72,4 +74,4 @@ def coco_collator(batch):
         images.append(img)
         captions.append(caption)
         labels.append(label)
-    return torch.stack(images), captions, torch.Tensor(labels).int()
+    return torch.stack(images), captions, torch.tensor(labels)
