@@ -6,6 +6,7 @@ import os
 from tqdm import tqdm
 from collections import defaultdict
 import random
+import numpy as np
 
 class CustomTransform:
     def __init__(self, config, mode):
@@ -38,8 +39,12 @@ class CocoMetricDataset(Dataset):
         self.labels = []
         self.filenames = []
         self.captions = []
+
+        #get 5000 random indices from the captions file
+        random.seed(123)
+        indices = random.sample(range(len(captions_file["annotations"])), 1000)
         
-        for caption_info in tqdm(captions_file["annotations"][:5000], desc="Creating image-answer pairs..."):
+        for caption_info in tqdm(np.array(captions_file["annotations"])[indices], desc="Creating image-answer pairs..."):
             caption = caption_info["caption"]
             image_id = caption_info["image_id"]
 
