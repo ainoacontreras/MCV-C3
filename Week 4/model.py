@@ -26,7 +26,6 @@ class Net(torch.nn.Module):
                 param.requires_grad = False
 
         self.proj = nn.Linear(text_dimension, 2048)
-        self.relu = nn.ReLU()
 
     def sentence_to_vector(self, captions, text_type='ft', device=None):
         """
@@ -37,8 +36,7 @@ class Net(torch.nn.Module):
             for sentence in captions:
                 sentence = sentence.lower()
                 words = re.findall(r'\b\w+\b', sentence)
-                sentence_embedding = np.stack([
-                    self.text_encoder.get_word_vector(word) for word in words if word in self.text_encoder]).mean(axis=0)
+                sentence_embedding = np.stack([self.normalize_vector(self.text_encoder[word]) for word in words if word in self.text_encoder]).mean(axis=0)
                 
                 batch_embedding.append(torch.tensor(sentence_embedding))
             return torch.stack(batch_embedding).to(device)
@@ -47,18 +45,13 @@ class Net(torch.nn.Module):
             return self.text_encoder(**inputs).last_hidden_state[:, 0, :].to(device)
         
     def normalize_vector(self, vec):
-        """print(vec.shape)
-        norm = np.sqrt(np.sum(vec**2))
-        if not norm==0:
-            return vec/norm
+        if type(vec) == torch.Tensor:
+            return vec / vec.pow(2).sum(dim=-1, keepdim=True).sqrt()
         else:
-            return vec"""
-        return vec / vec.pow(2).sum(dim=1, keepdim=True).sqrt()
+            return vec / np.sqrt((vec ** 2).sum(-1, keepdims=True))
         
     def forward(self, image, captions):
         img_embedding = self.normalize_vector(self.visual_encoder(image))
-        caption_embedding = self.normalize_vector(
-            self.proj(
-                self.relu(self.sentence_to_vector(captions, text_type=self.text_encoder_type, device=image.device))))
+        caption_embedding = self.proj(self.sentence_to_vector(captions, text_type=self.text_encoder_type, device=image.device))
 
         return img_embedding, caption_embedding
