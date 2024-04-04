@@ -42,7 +42,7 @@ class CocoMetricDataset(Dataset):
 
         #get 5000 random indices from the captions file
         random.seed(123)
-        indices = random.sample(range(len(captions_file["annotations"])), 1000)
+        indices = random.sample(range(len(captions_file["annotations"])), 5000)
         
         for caption_info in tqdm(np.array(captions_file["annotations"])[indices], desc="Creating image-answer pairs..."):
             caption = caption_info["caption"]
