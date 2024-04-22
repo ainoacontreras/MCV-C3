@@ -7,9 +7,6 @@ def transform_data(IMAGE_SIZE):
     data_train_transform = transforms.Compose([
         v2.Resize(size=IMAGE_SIZE),
         v2.TrivialAugmentWide(),
-        # v2.RandomHorizontalFlip(0.5),
-        # v2.RandomRotation(45),
-        # v2.RandomResizedCrop(size=IMAGE_SIZE, scale=(0.75, 1.0)),
         # Turn the image into a torch.Tensor
         v2.ToTensor(), # this also converts all pixel values from 0 to 255 to be between 0.0 and 1.0 
         # resnet50 normalization
