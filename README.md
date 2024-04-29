@@ -18,3 +18,4 @@
 - [Week 4 Presentation Summary](https://docs.google.com/presentation/d/1HvY1IF9msPJdmOtSseJyvN2eN7RM-OIyFHYR-bcF830/edit?usp=sharing)
 - [Week 5 Presentation Summary](https://docs.google.com/presentation/d/1Eq0vUtF9u7gLYDaE46K1NmrjV0Fk1qxwKsStPLChALc/edit?usp=sharing)
 - [Week 6 Presentation Summary](https://docs.google.com/presentation/d/1vfazXXdUYrPDyMT2PYoDi_6GDsc44JTpEmvuTAPKYT4/edit?usp=sharing)
+- [Final Presentation](https://docs.google.com/presentation/d/16n-tE092bKFkPoeMx06jQx-iiEvnsYPYNOIJSPOVJd4/edit?usp=sharing)
